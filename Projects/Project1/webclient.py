@@ -1,7 +1,7 @@
 # Title: Project 1 - Client
 # Name: Bennett Hamilton
 # Date: 10/7/23
-# Description: prectice setting up a web client on python
+# Description: practice setting up a web client on python
 
 # imports
 import socket
@@ -16,7 +16,7 @@ def request_webpage(website, port):
     BYTES = 4096
 
     # connect the socket (skip DNS lookup)
-    s.connect(website, port)
+    s.connect((website, port))
 
     # build request (using provided example)
     request = f"GET / HTTP/1.1\r\nHost: {website}\r\nConnection: close\r\n\r\n"
