@@ -43,7 +43,7 @@ def request_webpage(website, port):
 
 
 # define constants
-ARG_LEN = 2         # define length of arguments
+ARG_LEN = 2         # length of arguments
 PORT = 80           # always default to port 80 (for now)
 
 # assigning website
