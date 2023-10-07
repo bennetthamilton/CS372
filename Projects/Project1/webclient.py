@@ -5,18 +5,37 @@
 
 # imports
 import socket
+import sys
 
-# init variiables
-website = "example.com"
-port = 80
+def request_webpage(website, port)
+    # ask OS for socket, assign to variable
+    s = socket.socket()
 
-# ask OS for socket, assign to variable
-s = socket.socket()
+    # connect the socket (skip DNS lookup)
+    s.connect(website, port)
 
-# connect the socket (skip DNS lookup)
-s.connect(website, port)
+    # build request
 
-# send and recieve data
+    # send data
 
-# close connection
-s.close()
+    # recieve data
+
+    # close connection
+    s.close()
+
+# call function
+# ref: https://www.geeksforgeeks.org/command-line-arguments-in-python/
+
+arg_len = 2     # define length of arguments
+port = 80       # always default to port 80 (for now)
+
+# assigning website
+if len(sys.argv) < arg_len:
+    # default to example.com 
+    website = "example.com"
+else:
+    # otherwise use given website address
+    website = sys.argv[1]
+
+# call function
+request_webpage(website, port)
