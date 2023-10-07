@@ -21,15 +21,24 @@ def request_webpage(website, port)
     s.sendall(request.encode("ISO-8859-1"))
 
     # recieve data
+    # ref: https://www.geeksforgeeks.org/effect-of-b-character-in-front-of-a-string-literal-in-python/
 
-    # close connection
+    response = b""              # create and empty byte string to append response date
+
+    while True:                 # continously receive data until there is none left
+        data = s.recv(4096)     # receive up to 4096 bytes at a time
+        if len(data) == 0:      # if there is no more data exit loop
+            break
+        response += data        # otherwise append data to response
+
+    # close connection when all done
     s.close()
 
 # call function
 # ref: https://www.geeksforgeeks.org/command-line-arguments-in-python/
 
-arg_len = 2     # define length of arguments
-port = 80       # always default to port 80 (for now)
+arg_len = 2         # define length of arguments
+port = 80           # always default to port 80 (for now)
 
 # assigning website
 if len(sys.argv) < arg_len:
