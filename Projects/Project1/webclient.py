@@ -14,9 +14,11 @@ def request_webpage(website, port)
     # connect the socket (skip DNS lookup)
     s.connect(website, port)
 
-    # build request
+    # build request (using provided example)
+    request = f"GET / HTTP/1.1\r\nHost: {website}\r\nConnection: close\r\n\r\n"
 
     # send data
+    s.sendall(request.encode("ISO-8859-1"))
 
     # recieve data
 
