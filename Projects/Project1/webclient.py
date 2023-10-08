@@ -1,6 +1,6 @@
 # Title: Project 1 - Client
 # Name: Bennett Hamilton
-# Date: 10/7/23
+# Date: 10/8/23
 # Description: practice setting up a web client on python
 
 # imports
