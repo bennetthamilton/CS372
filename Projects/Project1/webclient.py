@@ -43,14 +43,15 @@ def request_webpage(website, port):
 
 
 # define constants
-ARG_LEN = 2         # length of arguments
-PORT = 80           # always default to port 80 (for now)
+ARG_LEN = 2                     # length of arguments
+PORT = 80                       # always default to port 80 (for now)
+WEB_DEFAULT = "example.com"     # default website
 
 # assigning website
 # ref: https://www.geeksforgeeks.org/command-line-arguments-in-python/
 if len(sys.argv) < ARG_LEN:
     # default to example.com 
-    website = "example.com"
+    website = WEB_DEFAULT
 else:
     # otherwise use given website address
     website = sys.argv[1]
