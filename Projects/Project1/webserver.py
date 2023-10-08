@@ -14,7 +14,7 @@ def run_server_response(port):
     s = socket.socket()
 
     # bind socket
-
+    s.bind(('', port))
 
     # listen for connection
 
