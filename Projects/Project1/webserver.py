@@ -37,9 +37,14 @@ def run_server_response(port):
             if b"\r\n\r\n" in request:
                 break
 
-
-    # build response
-
+        # build response
+        response = (
+            b"HTTP/1.1 200 OK\r\n"
+            b"Content-Type: text/plain\r\n"
+            b"Content-Length: 6\r\n"
+            b"Connection: close\r\n\r\n"
+            b"Hello!"
+        )
 
     # send response
 
