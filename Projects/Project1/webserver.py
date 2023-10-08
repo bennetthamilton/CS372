@@ -46,13 +46,14 @@ def run_server_response(port):
             b"Hello!"
         )
 
-    # send response
+        # send response
+        new_socket.sendall(response)
 
+        # close new socket
+        new_socket.close()
 
-    # close new socket
-
-
-    # loop back to accept new connection
+        # loop back to accept new connection
+    
 
 # define constants
 ARG_LEN = 2             # length of arguments
@@ -64,7 +65,7 @@ if len(sys.argv) < ARG_LEN:
     port_number = PORT_DEFAULT
 else:
     # otherwise use given website address
-    website = sys.argv[1]
+    port_number = sys.argv[1]
 
 # call function
 run_server_response(port_number)
