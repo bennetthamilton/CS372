@@ -20,9 +20,22 @@ def run_server_response(port):
     s.listen()
 
     # accept new connection (continously run loop)
+    while True:
+        
+        new_conn = s.accept()       # accept new connection (tuple)
+        new_socket = new_conn[0]    # assign to new socket
 
-
-    # receive request from client
+        # receive request data from connected client
+        request = b""               # create and empty byte string to append request data
+        while True:                 # continously receive data until there is none left
+            data = new_socket.recv(1024)
+            # break loop when there is not data
+            if not data:
+                break
+            request += data         # append data to request
+            # if blank line delimiting the end of the header detected, break loop
+            if b"\r\n\r\n" in request:
+                break
 
 
     # build response
