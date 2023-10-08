@@ -5,8 +5,10 @@
 
 # imports
 import sys
+import socket
 
-
+# get socket
+s = socket.socket()
 
 # define constants
 ARG_LEN = 2             # length of arguments
