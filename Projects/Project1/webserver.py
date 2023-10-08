@@ -18,12 +18,14 @@ def run_server_response(port):
 
     # listen for connection
     s.listen()
+    print(f"Project 1 server listening on port {port}...")
 
     # accept new connection (continously run loop)
     while True:
         
         new_conn = s.accept()       # accept new connection (tuple)
         new_socket = new_conn[0]    # assign to new socket
+        print(f"Accepted connection")
 
         # receive request data from connected client
         request = b""               # create and empty byte string to append request data
