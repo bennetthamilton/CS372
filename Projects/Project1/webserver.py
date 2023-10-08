@@ -18,7 +18,7 @@ def run_server_response(port):
         s.bind(('', port))
 
         # listen for connection
-        s.listen()
+        s.listen(5)
         print(f"Project 1 server listening on port {port}...")
 
         # accept new connection (continously run loop)
