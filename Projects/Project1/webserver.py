@@ -17,9 +17,9 @@ def run_server_response(port):
     s.bind(('', port))
 
     # listen for connection
+    s.listen()
 
-
-    # accept new connection
+    # accept new connection (continously run loop)
 
 
     # receive request from client
