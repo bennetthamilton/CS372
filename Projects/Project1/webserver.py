@@ -79,4 +79,10 @@ else:
     port_number = sys.argv[1]
 
 # call function
-run_server_response(port_number)
+# ref: https://stackoverflow.com/questions/21120947/catching-keyboardinterrupt-in-python-during-program-shutdown
+try:
+    run_server_response(port_number)
+except KeyboardInterrupt:
+        print("\nServer stopped")
+        sys.exit(130)
+
