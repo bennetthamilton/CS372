@@ -73,7 +73,7 @@ def process_client_request(client_socket):
     filename = parse_request_header(request)
 
     # build response from file
-    response = build_response()
+    response = build_response(filename)
 
     # send response
     client_socket.sendall(response)
