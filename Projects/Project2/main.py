@@ -8,6 +8,7 @@
 # imports
 import sys
 import socket
+import mimetypes
 
 # function to receive request data from connected client, returns request as a byte string
 def receive_request(client_socket):
@@ -38,21 +39,41 @@ def parse_request_header(request):
 
     return filename_str                                     # return file name as a string
 
+# build a response based on file type and contents, encode response, return response
+# ref: https://docs.python.org/3/library/mimetypes.html
+def build_response(filename_str):
+    # determing the content type based on the file name
+    content_type, encoding = mimetypes.guess_extension(filename_str)
+
+    # read data from filename
+    try:
+        # open and read the requested file
+        with open(filename_str, "rb") as file:
+            file_content = file.read()
+        
+        # Build the response with proper headers
+        header = f"HTTP/1.1 200 OK\r\n"
+        header += f"Content-Type: {content_type}\r\n"
+        header += f"Content-Length: {len(file_content)}\r\n\r\n"
+        response = header.encode() + file_content
+
+        return response     # return encoded response
+    
+    except:
+        # handle file not found or other error with 404 response
+        return "HTTP/1.1 404 Not Found\r\n\r\nFile not found.".encode()
+
 # handler function for processing client request
 # ref: https://beej.us/guide/bgnet0/html/split/project-a-better-web-server.html
 def process_client_request(client_socket):
     # receive request data from connected client
     request = receive_request(client_socket)
 
-    # TODO parse request header to get filename
+    # parse request header to get filename
     filename = parse_request_header(request)
 
-    # TODO read data from filename
-
-    # TODO determine content type (html/txt)
-
-    # TODO build response from txt/html file
-    response = ''
+    # build response from file
+    response = build_response()
 
     # send response
     client_socket.sendall(response)
