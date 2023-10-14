@@ -12,7 +12,7 @@ import socket
 # function to receive request data from connected client, returns request as a byte string
 def receive_request(client_socket):
     request_bstring = b""               # create and empty byte string to append request data
-    while True:                 # continously receive data until there is none left
+    while True:                         # continously receive data until there is none left
         data = client_socket.recv(1024)
         # break loop when there is not data
         if not data:
@@ -22,16 +22,30 @@ def receive_request(client_socket):
         if b"\r\n\r\n" in request_bstring:
             break
 
-    return request_bstring
+    return request_bstring              # return request as a byte string
+
+# function to parse request header to get file name, strips path, returns only the file name
+def parse_request_header(request):
+
+    # parse header
+    request_lines = request.split(b"\r\n")                  # split requests into seperate lines
+    first_line = request_lines[0].decode("ISO-8859-1")      # get first line and decode into string        
+    method, fullpath, protocol = first_line.split(" ")      # split first line into seperate sections
+
+    # strip path from file to get the file name
+    path_elements = fullpath.split("/")                     # split full path into seperate sections
+    filename_str = path_elements[-1:]                       # last element will always be the file name
+
+    return filename_str                                     # return file name as a string
 
 # handler function for processing client request
+# ref: https://beej.us/guide/bgnet0/html/split/project-a-better-web-server.html
 def process_client_request(client_socket):
     # receive request data from connected client
     request = receive_request(client_socket)
 
     # TODO parse request header to get filename
-
-    # TODO strip off path (for security reasons)
+    filename = parse_request_header(request)
 
     # TODO read data from filename
 
