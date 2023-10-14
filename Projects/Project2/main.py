@@ -12,25 +12,25 @@ import os
 
 # function to receive request data from connected client, returns request as a byte string
 def receive_request(client_socket):
-    request_bstring = b""               # create and empty byte string to append request data
+    request = b""                       # create and empty byte string to append request data
     while True:                         # continously receive data until there is none left
         data = client_socket.recv(1024)
         # break loop when there is not data
         if not data:
             break
-        request_bstring += data         # append data to request
+        request += data                 # append data to request
         # if blank line delimiting the end of the header detected, break loop
-        if b"\r\n\r\n" in request_bstring:
+        if b"\r\n\r\n" in request:
             break
 
-    return request_bstring              # return request as a byte string
+    return request                       # return request as a byte string
 
 # function to parse request header to get file name, strips path, returns only the file name
 def parse_request_header(request):
 
     # parse header
     request_lines = request.split(b"\r\n")                  # split requests into seperate lines
-    first_line = request_lines[0].decode("ISO-8859-1")      # get first line and decode into string        
+    first_line = request_lines[0].decode()                  # get first line and decode into string   
     method, fullpath, protocol = first_line.split(" ")      # split first line into seperate sections
 
     # strip path from file to get the file name
@@ -77,8 +77,12 @@ def build_response(filename_str):
 # handler function for processing client request
 # ref: https://beej.us/guide/bgnet0/html/split/project-a-better-web-server.html
 def process_client_request(client_socket):
+    print(f"Processing client request...")
+
     # receive request data from connected client
     request = receive_request(client_socket)
+    print(f"Request received.")
+    print(request.decode())
 
     # parse request header to get filename
     filename = parse_request_header(request)
@@ -122,7 +126,7 @@ def run_server_response(port):
 
 # define constants
 ARG_LEN = 2             # length of arguments
-PORT_DEFAULT = 28333    # default port number
+PORT_DEFAULT = 33490    # default port number
 
 # assigning port number
 if len(sys.argv) < ARG_LEN:
