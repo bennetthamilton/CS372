@@ -63,11 +63,11 @@ PORT_DEFAULT = 28333    # default port number
 
 # assigning port number
 if len(sys.argv) < ARG_LEN:
-    # default to example.com 
+    # default port 
     port_number = PORT_DEFAULT
 else:
-    # otherwise use given website address
-    port_number = sys.argv[1]
+    # otherwise use given port
+    port_number = int(sys.argv[1])
 
 # call function
 run_server_response(port_number)
