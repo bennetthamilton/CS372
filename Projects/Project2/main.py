@@ -118,7 +118,7 @@ if len(sys.argv) < ARG_LEN:
     port_number = PORT_DEFAULT
 else:
     # otherwise use given port number
-    port_number = sys.argv[1]
+    port_number = int(sys.argv[1])
 
 # call function
 run_server_response(port_number)
