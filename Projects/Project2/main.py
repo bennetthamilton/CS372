@@ -8,7 +8,7 @@
 # imports
 import sys
 import socket
-import mimetypes
+import os
 
 # function to receive request data from connected client, returns request as a byte string
 def receive_request(client_socket):
@@ -35,15 +35,26 @@ def parse_request_header(request):
 
     # strip path from file to get the file name
     path_elements = fullpath.split("/")                     # split full path into seperate sections
-    filename_str = path_elements[-1:]                       # last element will always be the file name
+    filename_list = path_elements[-1:]                      # last element will always be the file name
+    filename_str = filename_list[0]                         # get the string element in list
 
     return filename_str                                     # return file name as a string
 
 # build a response based on file type and contents, encode response, return response
-# ref: https://docs.python.org/3/library/mimetypes.html
+# ref: https://docs.python.org/3/library/os.path.html#os.path.splitext
 def build_response(filename_str):
     # determing the content type based on the file name
-    content_type, encoding = mimetypes.guess_extension(filename_str)
+    name, file_type = os.path.splitext(filename_str)
+
+    # map mime type to content type
+    # ref: https://www.geeksforgeeks.org/switch-case-in-python-replacement/
+    match file_type:
+        case '.txt':
+            content_type = 'text/plain'
+        case '.html':
+            content_type = 'text/html'
+        case _:
+            content_type = 'text/plain'
 
     # read data from filename
     try:
@@ -71,6 +82,7 @@ def process_client_request(client_socket):
 
     # parse request header to get filename
     filename = parse_request_header(request)
+    print(filename) # for debugging
 
     # build response from file
     response = build_response(filename)
