@@ -1,3 +1,8 @@
+# Title: Project 3 - Word Client
+# Name: Bennett Hamilton
+# Date: 10/21/23
+# Description: practice using a word client to send and receive packets of data
+
 import sys
 import socket
 

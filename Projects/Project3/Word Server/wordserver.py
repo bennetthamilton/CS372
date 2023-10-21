@@ -1,3 +1,8 @@
+# Title: Project 3 - Word Server
+# Name: Bennett Hamilton
+# Date: 10/21/23
+# Description: provided word server
+
 # Some common English words
 
 WORDS = [
