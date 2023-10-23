@@ -27,7 +27,15 @@ def get_next_word_packet(s):
 
     global packet_buffer
 
-    # TODO -- Write me!
+    # read bytes to determine the word length
+
+    # extract the word length from the packet buffer
+
+    # read enough bytes to complete the word packet
+
+    # extract complete word packet
+
+    return word_packet
 
 
 def extract_word(word_packet):
@@ -40,7 +48,11 @@ def extract_word(word_packet):
     Returns the word decoded as a string.
     """
 
-    # TODO -- Write me!
+    # extract the word (excluding the length bytes)
+
+    # decode the word using UTF-8 encoding
+
+    return word
 
 # Do not modify:
 
