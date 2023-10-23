@@ -50,11 +50,11 @@ def get_next_word_packet(s):
             return None 
         packet_buffer += data
 
+    print(f"Word packet: {packet_buffer}")
+
     # extract complete word packet
     word_packet = packet_buffer[:word_len]      # grab the packet
     packet_buffer = packet_buffer[word_len:]    # slice it off the front
-
-    print(f"Word packet: {word_packet}")
 
     return word_packet
 
@@ -69,11 +69,8 @@ def extract_word(word_packet):
     Returns the word decoded as a string.
     """
 
-    # extract the word (excluding the length bytes)
-    word = word_packet[WORD_LEN_SIZE:]
-
     # decode the word using UTF-8 encoding
-    word = word.decode()
+    word = word_packet.decode()
 
     return word
 
