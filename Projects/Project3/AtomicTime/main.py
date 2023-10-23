@@ -11,8 +11,12 @@ import time
 
 def connect_to_nist():
     nist_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    nist_socket.connect(("time.nist.gov", 37))
-    return nist_socket
+    try:
+        nist_socket.connect(("time.nist.gov", 37))
+        return nist_socket
+    except ConnectionRefusedError:
+        print("Failed to connect to the NIST server.")
+        return None
 
 def receive_time_data(socket):
     nist_data = socket.recv(4)     # receive 4 bytes from the server
