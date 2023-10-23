@@ -19,9 +19,13 @@ def connect_to_nist():
         return None
 
 def receive_time_data(socket):
-    nist_data = socket.recv(4)     # receive 4 bytes from the server
-    socket.close()                 # close the socket
-    return nist_data
+    try:
+        nist_data = socket.recv(4)  # receive 4 bytes from the server
+        socket.close()              # close connection
+        return nist_data
+    except ConnectionResetError:
+        print("Connection to the NIST server was reset. Please try again.")
+        return None
 
 def decode_time(bytes):
     nist_time = int.from_bytes(bytes, byteorder='big')
@@ -47,8 +51,14 @@ def main():
     # connect to nst server
     nist_socket = connect_to_nist()
 
+    if nist_socket is None:
+        return
+
     # receive 4 bytes of time data
     data = receive_time_data(nist_socket)
+
+    if data is None:
+        return
 
     # decode bytes
     nist_time = decode_time(data)
