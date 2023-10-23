@@ -14,6 +14,7 @@ def usage():
 
 packet_buffer = b''
 
+# ref: https://beej.us/guide/bgnet0/html/split/parsing-packets.html#parsing-packets
 def get_next_word_packet(s):
     """
     Return the next word packet from the stream.
@@ -48,8 +49,8 @@ def get_next_word_packet(s):
         packet_buffer += data
 
     # extract complete word packet
-    word_packet = packet_buffer[:word_len]
-    packet_buffer = packet_buffer[word_len:]
+    word_packet = packet_buffer[:word_len]      # grab the packet
+    packet_buffer = packet_buffer[word_len:]    # slice it off the front
 
     return word_packet
 
