@@ -28,12 +28,28 @@ def get_next_word_packet(s):
     global packet_buffer
 
     # read bytes to determine the word length
+    while len(packet_buffer) < WORD_LEN_SIZE:
+        # receive data from socket
+        data = s.recv(WORD_LEN_SIZE - len(packet_buffer))
+        # close connection when there is no more data
+        if not data:
+            return None
+        packet_buffer += data
 
     # extract the word length from the packet buffer
+    word_len = int.from_bytes(packet_buffer[:WORD_LEN_SIZE], byteorder='big')
+    packet_buffer = packet_buffer[WORD_LEN_SIZE:]
 
     # read enough bytes to complete the word packet
+    while len(packet_buffer) < word_len:
+        data = s.recv(word_len - len(packet_buffer))
+        if not data:
+            return None 
+        packet_buffer += data
 
     # extract complete word packet
+    word_packet = packet_buffer[:word_len]
+    packet_buffer = packet_buffer[word_len:]
 
     return word_packet
 
