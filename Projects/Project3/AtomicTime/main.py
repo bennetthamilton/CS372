@@ -9,15 +9,25 @@
 import socket
 import time
 
-def connect():
+def connect_to_nist():
     nist_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     nist_socket.connect(("time.nist.gov", 37))
 
+    return nist_socket
+
+def receive_time_data(socket):
+    
+    nist_data = socket.recv(4)     # receive 4 bytes from the server
+    socket.close()                 # close the socket
+    
+    return nist_data
+
 def main():
     # connect to nst server
-    connect()
+    nist_socket = connect_to_nist()
 
     # receive 4 bytes of time data
+    time_data = receive_time_data(nist_socket)
 
     # decode bytes
 
