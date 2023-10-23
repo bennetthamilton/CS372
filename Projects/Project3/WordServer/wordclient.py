@@ -41,6 +41,8 @@ def get_next_word_packet(s):
     word_len = int.from_bytes(packet_buffer[:WORD_LEN_SIZE], byteorder='big')
     packet_buffer = packet_buffer[WORD_LEN_SIZE:]
 
+    print(f"Word length: {word_len}")
+
     # read enough bytes to complete the word packet
     while len(packet_buffer) < word_len:
         data = s.recv(word_len - len(packet_buffer))
@@ -51,6 +53,8 @@ def get_next_word_packet(s):
     # extract complete word packet
     word_packet = packet_buffer[:word_len]      # grab the packet
     packet_buffer = packet_buffer[word_len:]    # slice it off the front
+
+    print(f"Word packet: {word_packet}")
 
     return word_packet
 
