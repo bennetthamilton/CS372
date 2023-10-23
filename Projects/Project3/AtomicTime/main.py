@@ -6,11 +6,16 @@
 
 # ref: https://beej.us/guide/bgnet0/html/split/project-atomic-time.html
 
-import sys
+import socket
 import time
+
+def connect():
+    nist_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    nist_socket.connect(("time.nist.gov", 37))
 
 def main():
     # connect to nst server
+    connect()
 
     # receive 4 bytes of time data
 
