@@ -65,8 +65,10 @@ def extract_word(word_packet):
     """
 
     # extract the word (excluding the length bytes)
+    word = word_packet[WORD_LEN_SIZE:]
 
     # decode the word using UTF-8 encoding
+    word = word.decode()
 
     return word
 
