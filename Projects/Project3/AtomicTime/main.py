@@ -12,28 +12,16 @@ import time
 def connect_to_nist():
     nist_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     nist_socket.connect(("time.nist.gov", 37))
-
     return nist_socket
 
 def receive_time_data(socket):
-    
     nist_data = socket.recv(4)     # receive 4 bytes from the server
     socket.close()                 # close the socket
-    
     return nist_data
 
-def main():
-    # connect to nst server
-    nist_socket = connect_to_nist()
-
-    # receive 4 bytes of time data
-    time_data = receive_time_data(nist_socket)
-
-    # decode bytes
-
-    # print out nst time value
-
-    # print out system time value
+def decode_time(bytes):
+    nist_time = int.from_bytes(bytes, byteorder='big')
+    return nist_time
 
 def system_seconds_since_1900():
     """
@@ -49,6 +37,24 @@ def system_seconds_since_1900():
     seconds_since_1900_epoch = seconds_since_unix_epoch + seconds_delta
 
     return seconds_since_1900_epoch
+
+
+def main():
+    # connect to nst server
+    nist_socket = connect_to_nist()
+
+    # receive 4 bytes of time data
+    data = receive_time_data(nist_socket)
+
+    # decode bytes
+    nist_time = decode_time(data)
+
+    # get system time
+    system_time = system_seconds_since_1900()
+
+    # print out nst time value and system time value
+    print(f"NIST time  : {nist_time}")
+    print(f"System time: {system_time}")
 
 if __name__ == "__main__":
     main()
