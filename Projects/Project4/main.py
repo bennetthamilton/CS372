@@ -5,9 +5,11 @@
 # Reference: https://beej.us/guide/bgnet0/html/split/project-validating-a-tcp-packet.html
 
 def calculate_checksum(pseudo_header, tcp_data):
+    # concatenate the pseudo header and the TCP data with zero checksum
     data = pseudo_header + tcp_data
     total = 0
 
+    # compute the checksum of that concatenation
     for offset in range(0, len(data), 2):
         word = int.from_bytes(data[offset:offset + 2], 'big')
         total += word
@@ -37,17 +39,12 @@ def validate_tcp_packet(ip_filename, tcp_filename):
     with open(tcp_filename, 'rb') as tcp_file:
         tcp_data = tcp_file.read()
         tcp_length = len(tcp_data)
-        if tcp_length % 2 == 1:
+        if tcp_length % 2 == 1:     # build a new version of the TCP data that has the checksum set to zero
             tcp_data += b'\x00'
         checksum = calculate_checksum(pseudo_header, tcp_data)
-    
 
-    # Build a new version of the TCP data that has the checksum set to zero.
+        # extract the checksum from the original data in tcp_data file
 
-    # Concatenate the pseudo header and the TCP data with zero checksum.
+        # compare the two checksums
 
-    # Compute the checksum of that concatenation
-
-    # Extract the checksum from the original data in tcp_data_0.dat.
-
-    # Compare the two checksums
+# iterate through all files
