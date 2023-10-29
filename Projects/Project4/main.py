@@ -21,7 +21,6 @@ def calculate_checksum(pseudo_header, tcp_data):
 
 # function that converts the dots-and-numbers IP addresses into bytestrings
 # ref: https://www.geeksforgeeks.org/python-map-function/
-# ref: https://www.w3schools.com/python/ref_string_split.asp
 # ref: https://stackoverflow.com/questions/21017698/why-does-bytesn-create-a-length-n-byte-string-instead-of-converting-n-to-a-b
 def ip_to_bytes(ip):
     ip_parts = map(int, ip.split('.'))
@@ -41,8 +40,15 @@ def validate_tcp_packet(ip_filename, tcp_filename):
     with open(tcp_filename, 'rb') as tcp_file:
         tcp_data = tcp_file.read()
         tcp_length = len(tcp_data)
+
+        # convert the TCP length to a two-byte big-endian representation
+        tcp_length_bytes = tcp_length.to_bytes(2, byteorder='big')
+
+        pseudo_header += tcp_length_bytes
+
         if tcp_length % 2 == 1:     # build a new version of the TCP data that has the checksum set to zero
             tcp_data += b'\x00'
+
         checksum = calculate_checksum(pseudo_header, tcp_data)
 
         # extract the checksum from the original data in tcp_data file located "at byte offsets 16 and 17 inside the TCP header"
