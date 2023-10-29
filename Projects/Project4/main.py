@@ -4,6 +4,8 @@
 # Description: code that validates a TCP packet, making sure it hasn’t been corrupted in transit
 # Reference: https://beej.us/guide/bgnet0/html/split/project-validating-a-tcp-packet.html
 
+# function that calulates checksum from the psuedo header and data, returns the checksum
+# ref: 16.7 Actually Computing the Checksum from "Reference" (see header)
 def calculate_checksum(pseudo_header, tcp_data):
     # concatenate the pseudo header and the TCP data with zero checksum
     data = pseudo_header + tcp_data
@@ -43,8 +45,19 @@ def validate_tcp_packet(ip_filename, tcp_filename):
             tcp_data += b'\x00'
         checksum = calculate_checksum(pseudo_header, tcp_data)
 
-        # extract the checksum from the original data in tcp_data file
+        # extract the checksum from the original data in tcp_data file located "at byte offsets 16 and 17 inside the TCP header"
+        # ref: 16.6 The TCP Header Checksum from "Reference" (see header)
+        original_checksum = int.from_bytes(tcp_data[16:18], 'big')
 
         # compare the two checksums
+        if checksum == original_checksum:
+            print('PASS')
+        else:
+            print('FAIL')
 
 # iterate through all files
+for i in range(10):
+    ip_filename = f'tcp_addrs_{i}.txt'
+    tcp_filename = f'tcp_data_{i}.dat'
+    print(f'Test {i+1}: ', end='')
+    validate_tcp_packet(ip_filename, tcp_filename)
