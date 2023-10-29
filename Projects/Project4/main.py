@@ -21,7 +21,8 @@ def validate_tcp_packet(ip_filename, tcp_filename):
     with open(ip_filename, 'r') as ip_file:
         # split the line in two, the source and destination addresses
         source_ip, dest_ip = ip_file.readline().split(' ')
-        # function that generates the IP pseudo header bytes from the IP addresses from tcp_addrs_0.txt
+        # build psuedo header using source ip, destination ip, Zero = 0x00, PTLC = 0x06
+        psuedo_header = ip_to_bytes(source_ip) + ip_to_bytes(dest_ip) + b'\x00\x06'
 
     # read the tcp_data file
     with open(tcp_filename, 'rb') as tcp_file:
