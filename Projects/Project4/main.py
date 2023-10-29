@@ -7,8 +7,14 @@
 # function that calulates checksum from the psuedo header and data, returns the checksum
 # ref: 16.7 Actually Computing the Checksum from "Reference" (see header)
 def calculate_checksum(pseudo_header, tcp_data):
+
+    tcp_zero_cksum = tcp_data[:16] + b'\x00\x00' + tcp_data[18:]
+
+    if len(tcp_zero_cksum) % 2 == 1:     # build a new version of the TCP data that has the checksum set to zero
+        tcp_zero_cksum += b'\x00'
+
     # concatenate the pseudo header and the TCP data with zero checksum
-    data = pseudo_header + tcp_data
+    data = pseudo_header + tcp_zero_cksum
     total = 0
 
     # compute the checksum of that concatenation
@@ -21,10 +27,17 @@ def calculate_checksum(pseudo_header, tcp_data):
 
 # function that converts the dots-and-numbers IP addresses into bytestrings
 # ref: https://www.geeksforgeeks.org/python-map-function/
-# ref: https://stackoverflow.com/questions/21017698/why-does-bytesn-create-a-length-n-byte-string-instead-of-converting-n-to-a-b
+# ref: https://stackoverflow.com/questions/27001419/how-to-append-to-bytes-in-python-3
 def ip_to_bytes(ip):
-    ip_parts = map(int, ip.split('.'))
-    return bytes(ip_parts)      # using bytes() instead of .to_bytes since its an iterable
+    ip_parts = ip.split('.')
+    ip_bytes = b''
+    # iterate through parts and covert to bytes
+    for part in ip_parts:
+        # convert each part (string) to an integer and then to a single byte
+        part_int = int(part)
+        part_byte = part_int.to_bytes(1, byteorder='big')
+        ip_bytes += part_byte
+    return ip_bytes
 
 # function that validates the tcp packet data, return PASS or FAIL
 # ref: https://www.w3schools.com/python/ref_file_readline.asp
@@ -45,9 +58,6 @@ def validate_tcp_packet(ip_filename, tcp_filename):
         tcp_length_bytes = tcp_length.to_bytes(2, byteorder='big')
 
         pseudo_header += tcp_length_bytes
-
-        if tcp_length % 2 == 1:     # build a new version of the TCP data that has the checksum set to zero
-            tcp_data += b'\x00'
 
         checksum = calculate_checksum(pseudo_header, tcp_data)
 
