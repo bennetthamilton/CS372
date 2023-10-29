@@ -32,7 +32,7 @@ def validate_tcp_packet(ip_filename, tcp_filename):
     # read the ip_addrs file
     with open(ip_filename, 'r') as ip_file:
         # split the line in two, the source and destination addresses
-        source_ip, dest_ip = ip_file.readline().split(' ')
+        source_ip, dest_ip = ip_file.readline().strip().split()
         # build psuedo header using source ip, destination ip, Zero = 0x00, PTLC = 0x06
         pseudo_header = ip_to_bytes(source_ip) + ip_to_bytes(dest_ip) + b'\x00\x06'
 
@@ -60,6 +60,12 @@ def validate_tcp_packet(ip_filename, tcp_filename):
             print('PASS')
         else:
             print('FAIL')
+
+# checking file path when debugging
+import os
+current_directory = os.getcwd()
+print("Current directory:", current_directory)
+os.chdir("/Users/bennetthamilton/Desktop/CS372/Projects/Project4")
 
 # iterate through all files
 for i in range(10):
