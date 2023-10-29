@@ -4,7 +4,16 @@
 # Description: code that validates a TCP packet, making sure it hasn’t been corrupted in transit
 # Reference: https://beej.us/guide/bgnet0/html/split/project-validating-a-tcp-packet.html
 
+def calculate_checksum(pseudo_header, tcp_data):
+    data = pseudo_header + tcp_data
+    total = 0
 
+    for offset in range(0, len(data), 2):
+        word = int.from_bytes(data[offset:offset + 2], 'big')
+        total += word
+        total = (total & 0xffff) + (total >> 16)
+
+    return (~total) & 0xffff
 
 # function that converts the dots-and-numbers IP addresses into bytestrings
 # ref: https://www.geeksforgeeks.org/python-map-function/
@@ -22,13 +31,15 @@ def validate_tcp_packet(ip_filename, tcp_filename):
         # split the line in two, the source and destination addresses
         source_ip, dest_ip = ip_file.readline().split(' ')
         # build psuedo header using source ip, destination ip, Zero = 0x00, PTLC = 0x06
-        psuedo_header = ip_to_bytes(source_ip) + ip_to_bytes(dest_ip) + b'\x00\x06'
+        pseudo_header = ip_to_bytes(source_ip) + ip_to_bytes(dest_ip) + b'\x00\x06'
 
     # read the tcp_data file
     with open(tcp_filename, 'rb') as tcp_file:
         tcp_data = tcp_file.read()
         tcp_length = len(tcp_data)
-        # function that generates the TCP length from the tcp_data_0.dat file.
+        if tcp_length % 2 == 1:
+            tcp_data += b'\x00'
+        checksum = calculate_checksum(pseudo_header, tcp_data)
     
 
     # Build a new version of the TCP data that has the checksum set to zero.
