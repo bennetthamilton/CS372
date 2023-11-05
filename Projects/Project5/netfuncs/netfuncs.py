@@ -1,3 +1,10 @@
+# Title: Project 5 - Computing and Finding Subnets
+# Name: Bennett Hamilton
+# Date: 11/5/23
+# Description: Write functions to convert dots-and-numbers IP addresses into single 32-bit values–and back again,
+#              a function that converts a subnet mask in slash notation into a single 32-bit value representing that mask, 
+#              and a function to see if two IP addresses are on the same subnet.
+
 import sys
 import json
 
