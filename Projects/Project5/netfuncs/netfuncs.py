@@ -15,8 +15,15 @@ def ipv4_to_value(ipv4_addr):
     return:    16909060  (Which is 0x01020304 hex)
     """
 
-    # TODO -- write me!
-    pass
+    ipv4_addr_bytes = ipv4_addr.split(".")
+
+    # no need to convert to hex since its the same value, therefore bitwise function is the same
+    # ref: https://beej.us/guide/bgnet0/html/split/ip-subnets-and-subnet-masks.html
+    ipv4_value = 0
+    for part in ipv4_addr_bytes:
+        ipv4_value = (ipv4_value << 8) | int(part)
+
+    return ipv4_value
 
 def value_to_ipv4(addr):
     """
@@ -147,16 +154,15 @@ def find_router_for_ip(routers, ip):
 
 # Uncomment this code to have it run instead of the real main.
 # Be sure to comment it back out before you submit!
-"""
+
 def my_tests():
     print("-------------------------------------")
     print("This is the result of my custom tests")
     print("-------------------------------------")
 
-    print(x)
+    print(ipv4_to_value("255.255.0.0"))
+    print(ipv4_to_value("1.2.3.4"))
 
-    # Add custom test code here
-"""
 
 ## -------------------------------------------
 ## Do not modify below this line
