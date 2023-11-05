@@ -161,14 +161,16 @@ def find_router_for_ip(routers, ip):
 
 # Uncomment this code to have it run instead of the real main.
 # Be sure to comment it back out before you submit!
-
+# ref: https://realpython.com/python-testing/
 def my_tests():
     print("-------------------------------------")
     print("This is the result of my custom tests")
     print("-------------------------------------")
 
-    print(ipv4_to_value("255.255.0.0"))
-    print(ipv4_to_value("1.2.3.4"))
+    assert ipv4_to_value("255.255.0.0") == 4294901760
+    assert ipv4_to_value("1.2.3.4") == 16909060
+
+    print("Everything passed")
 
 
 ## -------------------------------------------
