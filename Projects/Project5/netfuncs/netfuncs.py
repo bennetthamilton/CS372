@@ -179,8 +179,14 @@ def find_router_for_ip(routers, ip):
     return: None
     """
 
-    # TODO -- write me!
-    pass
+    # ref: https://www.programiz.com/python-programming/methods/dictionary/items
+    for router_ip, router_info in routers.items():
+        netmask_slash = router_info.get("netmask")
+        # if there is a subnet match then return that ipv4 address
+        if ips_same_subnet(router_ip, ip, netmask_slash):
+            return router_ip
+
+    return None    # if there are no routers with matching subnet
 
 # Uncomment this code to have it run instead of the real main.
 # Be sure to comment it back out before you submit!
@@ -203,6 +209,29 @@ def my_tests():
     assert ips_same_subnet("10.23.230.22", "10.24.121.225", "/16") == False
 
     assert get_network(0x01020304, 0xffffff00) == 0x01020300
+
+    routers1 = {
+        "1.2.3.1": {
+            "netmask": "/24"
+        },
+        "1.2.4.1": {
+            "netmask": "/24"
+        }
+    }
+    ip1 = "1.2.3.5"
+    assert find_router_for_ip(routers1, ip1) == "1.2.3.1"
+
+
+    routers2 =  {
+        "1.2.3.1": {
+            "netmask": "/24"
+        },
+        "1.2.4.1": {
+            "netmask": "/24"
+        }
+    }
+    ip2 = "1.2.5.6"
+    assert find_router_for_ip(routers2, ip2) == None
 
     print("Everything passed")
 
