@@ -138,8 +138,7 @@ def get_network(ip_value, netmask):
     return:   0x01020300
     """
 
-    # TODO -- write me!
-    pass
+    return ip_value & netmask
 
 def find_router_for_ip(routers, ip):
     """
@@ -202,6 +201,8 @@ def my_tests():
 
     assert ips_same_subnet("10.23.121.17", "10.23.121.225", "/23") == True
     assert ips_same_subnet("10.23.230.22", "10.24.121.225", "/16") == False
+
+    assert get_network(0x01020304, 0xffffff00) == 0x01020300
 
     print("Everything passed")
 
