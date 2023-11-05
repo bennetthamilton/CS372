@@ -76,12 +76,12 @@ def get_subnet_mask_value(slash):
     slash:  "10.20.30.40/23"
     return: 0xfffffe00 0b11111111111111111111111000000000 4294966784
     """
-
+    TOTAL_BITS = 32
     # get only the slash and following number
-
+    length = int(slash.split("/")[1])
 
     # calculate mask value using prefix length
-
+    mask_value = (0xffffffff << (TOTAL_BITS - length)) & 0xffffffff
 
     return mask_value
 
@@ -184,6 +184,9 @@ def my_tests():
 
     assert value_to_ipv4(4294901760) == "255.255.0.0"
     assert value_to_ipv4(16909060) == "1.2.3.4"
+
+    assert get_subnet_mask_value("/16") == 4294901760
+    assert get_subnet_mask_value("10.20.30.40/23") == 4294966784
 
     print("Everything passed")
 
