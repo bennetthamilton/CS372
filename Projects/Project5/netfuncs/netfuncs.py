@@ -191,6 +191,7 @@ def find_router_for_ip(routers, ip):
 # Uncomment this code to have it run instead of the real main.
 # Be sure to comment it back out before you submit!
 # ref: https://realpython.com/python-testing/
+"""
 def my_tests():
     print("-------------------------------------")
     print("This is the result of my custom tests")
@@ -234,6 +235,7 @@ def my_tests():
     assert find_router_for_ip(routers2, ip2) == None
 
     print("Everything passed")
+"""
 
 
 ## -------------------------------------------
