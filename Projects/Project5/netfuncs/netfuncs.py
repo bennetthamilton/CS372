@@ -112,7 +112,11 @@ def ips_same_subnet(ip1, ip2, slash):
     return: False
     """
 
-    # TODO -- write me!
+    # get subnet mask
+
+    # use mask to get subnets from ipv4 addresses
+
+    # compare
     pass
 
 def get_network(ip_value, netmask):
