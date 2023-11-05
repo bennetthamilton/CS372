@@ -77,8 +77,13 @@ def get_subnet_mask_value(slash):
     return: 0xfffffe00 0b11111111111111111111111000000000 4294966784
     """
 
-    # TODO -- write me!
-    pass
+    # get only the slash and following number
+
+
+    # calculate mask value using prefix length
+
+
+    return mask_value
 
 def ips_same_subnet(ip1, ip2, slash):
     """
