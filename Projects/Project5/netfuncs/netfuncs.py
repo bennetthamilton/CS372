@@ -48,6 +48,7 @@ def value_to_ipv4(addr):
     return: "1.2.3.4"
     """
 
+    # ref: https://beej.us/guide/bgnet0/html/split/ip-subnets-and-subnet-masks.html
     bytes = []
     for _ in range(4):
         byte = addr & 0xFF           # mask the lowest byte
@@ -112,12 +113,19 @@ def ips_same_subnet(ip1, ip2, slash):
     return: False
     """
 
-    # get subnet mask
+    # ref: https://beej.us/guide/bgnet0/html/split/ip-subnets-and-subnet-masks.html
+    subnet_mask = get_subnet_mask_value(slash)
+    
+    # convert ipv4 addresses to 32 bit integer value
+    ip1_value = ipv4_to_value(ip1)
+    ip2_value = ipv4_to_value(ip2)
 
     # use mask to get subnets from ipv4 addresses
+    ip1_subnet = ip1_value & subnet_mask
+    ip2_subnet = ip2_value & subnet_mask
 
-    # compare
-    pass
+    # compare, return true or false
+    return ip1_subnet == ip2_subnet
 
 def get_network(ip_value, netmask):
     """
@@ -191,6 +199,9 @@ def my_tests():
 
     assert get_subnet_mask_value("/16") == 4294901760
     assert get_subnet_mask_value("10.20.30.40/23") == 4294966784
+
+    assert ips_same_subnet("10.23.121.17", "10.23.121.225", "/23") == True
+    assert ips_same_subnet("10.23.230.22", "10.24.121.225", "/16") == False
 
     print("Everything passed")
 
