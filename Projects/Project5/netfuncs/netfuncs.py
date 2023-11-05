@@ -48,12 +48,15 @@ def value_to_ipv4(addr):
     return: "1.2.3.4"
     """
 
-    byte1 = (addr >> 24) & 0xff 
-    byte2 = (addr >> 16) & 0xff 
-    byte3 = (addr >> 8)  & 0xff 
-    byte4 = (addr >> 0)  & 0xff
+    bytes = []
+    for _ in range(4):
+        byte = addr & 0xFF           # mask the lowest byte
+        bytes.insert(0, str(byte))   # insert byte at the beginning
+        addr >>= 8                   # shift right by one byte (8 bits)
+    
+    ipv4_addr =".".join(bytes)
 
-    return 
+    return ipv4_addr
 
 def get_subnet_mask_value(slash):
     """
