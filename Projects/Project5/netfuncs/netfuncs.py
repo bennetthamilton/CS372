@@ -34,7 +34,7 @@ def ipv4_to_value(ipv4_addr):
 
 def value_to_ipv4(addr):
     """
-    Convert a single 32-bit numeric value of integer type to a
+    Convert a single 32-bit numeric value of INTEGER type to a
     dots-and-numbers IP address. Returns a string type.
 
     Example:
@@ -48,8 +48,12 @@ def value_to_ipv4(addr):
     return: "1.2.3.4"
     """
 
-    # TODO -- write me!
-    pass
+    byte1 = (addr >> 24) & 0xff 
+    byte2 = (addr >> 16) & 0xff 
+    byte3 = (addr >> 8)  & 0xff 
+    byte4 = (addr >> 0)  & 0xff
+
+    return 
 
 def get_subnet_mask_value(slash):
     """
@@ -169,6 +173,9 @@ def my_tests():
 
     assert ipv4_to_value("255.255.0.0") == 4294901760
     assert ipv4_to_value("1.2.3.4") == 16909060
+
+    assert value_to_ipv4(4294901760) == "255.255.0.0"
+    assert value_to_ipv4(16909060) == "1.2.3.4"
 
     print("Everything passed")
 
