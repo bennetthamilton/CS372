@@ -8,6 +8,28 @@ import sys
 import json
 import math  # If you want to use math.inf for infinity
 
+# helper function to get the minimum distance node from the set of nodes to visit
+# ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
+def get_min_distance_node(to_visit, distance):
+    # traverse to_visit linearly to find shortest path O(n)
+    pass
+
+# helper function to get the shortest path from source to destination
+# ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
+def get_shortest_path(parent, src, dest):
+    # set current node to destination node
+    # initialize path as an empty array
+
+    # while current node is not source node:
+        # append current node to path
+        # set current node to parent of current node
+    
+    # append source node to path
+    # reverse path (correct order)
+    # return path
+    pass
+
+# ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
 def dijkstras_shortest_path(routers, src_ip, dest_ip):
     """
     This function takes a dictionary representing the network, a source
@@ -62,7 +84,26 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
     for madness.
     """
 
-    # TODO Write me!
+    # initialize to visit, distance, and parent
+
+    # set distance of source node to 0
+
+    # while to_visit is not empty:
+        # find current node in to_visit with minimum distance
+        # remove current node from to_visit
+
+        # for each one of the current node’s neighbors still in to_visit:
+            # compute distance from the starting node to the neighbor
+            # if the computed distance is less than the neighbor’s current value in distance:
+                # set neighbors distance to computed value
+                # set neighbors partent to current node
+    
+    # find the router on the same subnet as the destination IP (this is the destination router)
+
+    # find the shortest path
+
+    # return shortest path array
+
     pass
 
 # ref: Project 5 from netfuncs.py
@@ -72,37 +113,6 @@ def find_router_for_ip(routers, ip):
     router belongs to the same subnet as the given IP.
 
     Return None if no routers is on the same subnet as the given IP.
-
-    FOR FULL CREDIT: you must do this by calling your ips_same_subnet()
-    function.
-
-    Example:
-
-    [Note there will be more data in the routers dictionary than is
-    shown here--it can be ignored for this function.]
-
-    routers: {
-        "1.2.3.1": {
-            "netmask": "/24"
-        },
-        "1.2.4.1": {
-            "netmask": "/24"
-        }
-    }
-    ip: "1.2.3.5"
-    return: "1.2.3.1"
-
-
-    routers: {
-        "1.2.3.1": {
-            "netmask": "/24"
-        },
-        "1.2.4.1": {
-            "netmask": "/24"
-        }
-    }
-    ip: "1.2.5.6"
-    return: None
     """
 
     # ref: https://www.programiz.com/python-programming/methods/dictionary/items
@@ -122,24 +132,6 @@ def ips_same_subnet(ip1, ip2, slash):
     subnet.
 
     Returns a boolean.
-
-    FOR FULL CREDIT: this must use your get_subnet_mask_value() and
-    ipv4_to_value() functions. Don't do it with pure string
-    manipulation.
-
-    This needs to work with any subnet from /1 to /31
-
-    Example:
-
-    ip1:    "10.23.121.17"
-    ip2:    "10.23.121.225"
-    slash:  "/23"
-    return: True
-    
-    ip1:    "10.23.230.22"
-    ip2:    "10.24.121.225"
-    slash:  "/16"
-    return: False
     """
 
     # ref: https://beej.us/guide/bgnet0/html/split/ip-subnets-and-subnet-masks.html
@@ -164,16 +156,6 @@ def get_subnet_mask_value(slash):
     address optionally, but that part should be discarded.
 
     Returns an integer type.
-
-    Example:
-
-    There is only one return value, but it is shown here in 3 bases.
-
-    slash:  "/16"
-    return: 0xffff0000 0b11111111111111110000000000000000 4294901760
-
-    slash:  "10.20.30.40/23"
-    return: 0xfffffe00 0b11111111111111111111111000000000 4294966784
     """
     TOTAL_BITS = 32
     # get only the slash and following number
@@ -188,15 +170,9 @@ def get_subnet_mask_value(slash):
 def ipv4_to_value(ipv4_addr):
     """
     Convert a dots-and-numbers IP address to a single 32-bit numeric
-    value of integer type. Returns an integer type.
-
-    Example:
-
-    ipv4_addr: "255.255.0.0"
-    return:    4294901760  (Which is 0xffff0000 hex)
-
-    ipv4_addr: "1.2.3.4"
-    return:    16909060  (Which is 0x01020304 hex)
+    value of integer type. 
+    
+    Returns an integer type.
     """
 
     ipv4_addr_bytes = ipv4_addr.split(".")
