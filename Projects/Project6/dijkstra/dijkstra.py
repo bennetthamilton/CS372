@@ -14,6 +14,14 @@ def get_min_distance_node(to_visit, distance):
     # traverse to_visit linearly to find shortest path O(n)
     pass
 
+# helper function that performs the "relaxing" portion of dijkstra's algorithm
+def relax(current_node, neighbor, routers, distance, parent):
+    # compute distance from the starting node to the neighbor
+    # if the computed distance is less than the neighbor’s current value in distance:
+        # set neighbors distance to computed value
+        # set neighbors partent to current node
+    pass
+
 # helper function to get the shortest path from source to destination
 # ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
 def get_shortest_path(parent, src, dest):
@@ -84,19 +92,19 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
     for madness.
     """
 
-    # initialize to visit, distance, and parent
+    # ref: https://www.geeksforgeeks.org/python-list-comprehension/
+    to_visit = set(routers.keys())
+    distance = {node: math.inf for node in to_visit}
+    parent = {node: None for node in to_visit}
 
-    # set distance of source node to 0
+    distance[src_ip] = 0
 
-    # while to_visit is not empty:
-        # find current node in to_visit with minimum distance
-        # remove current node from to_visit
+    while to_visit:
+        current_node = get_min_distance_node(to_visit, distance)
+        to_visit.remove(current_node)
 
         # for each one of the current node’s neighbors still in to_visit:
-            # compute distance from the starting node to the neighbor
-            # if the computed distance is less than the neighbor’s current value in distance:
-                # set neighbors distance to computed value
-                # set neighbors partent to current node
+            # relax nodes
     
     # find the router on the same subnet as the destination IP (this is the destination router)
 
