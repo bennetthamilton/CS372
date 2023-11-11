@@ -34,17 +34,16 @@ def relax(current_node, neighbor, routers, distance, parent):
 # helper function to get the shortest path from source to destination
 # ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
 def get_shortest_path(parent, src, dest):
-    # set current node to destination node
-    # initialize path as an empty array
+    current_node = dest
+    path = []
 
-    # while current node is not source node:
-        # append current node to path
-        # set current node to parent of current node
+    while current_node != src:
+        path.append(current_node) 
+        current_node = parent[current_node]
     
-    # append source node to path
-    # reverse path (correct order)
-    # return path
-    pass
+    path.append(src)
+    path.reverse()
+    return path
 
 # ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
 def dijkstras_shortest_path(routers, src_ip, dest_ip):
