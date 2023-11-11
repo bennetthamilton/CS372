@@ -103,16 +103,17 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
         current_node = get_min_distance_node(to_visit, distance)
         to_visit.remove(current_node)
 
-        # for each one of the current node’s neighbors still in to_visit:
-            # relax nodes
+        for neighbor in routers[current_node]["connections"]:
+            if neighbor in to_visit:
+                relax(current_node, neighbor, routers, distance, parent)
     
     # find the router on the same subnet as the destination IP (this is the destination router)
+    dest_router = find_router_for_ip(routers, dest_ip)
 
-    # find the shortest path
+    # find the shortest path from source to destination
+    shortest_path = get_shortest_path(parent, src_ip, dest_router)
 
-    # return shortest path array
-
-    pass
+    return shortest_path
 
 # ref: Project 5 from netfuncs.py
 def find_router_for_ip(routers, ip):
