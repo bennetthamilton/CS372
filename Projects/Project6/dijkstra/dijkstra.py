@@ -11,8 +11,15 @@ import math  # If you want to use math.inf for infinity
 # helper function to get the minimum distance node from the set of nodes to visit
 # ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
 def get_min_distance_node(to_visit, distance):
-    # traverse to_visit linearly to find shortest path O(n)
-    pass
+    min_node = None
+    min_distance = math.inf
+
+    for node in to_visit:
+        if distance[node] < min_distance:
+            min_node = node
+            min_distance = distance[node]
+
+    return min_node
 
 # helper function that performs the "relaxing" portion of dijkstra's algorithm
 def relax(current_node, neighbor, routers, distance, parent):
