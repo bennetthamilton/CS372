@@ -23,11 +23,13 @@ def get_min_distance_node(to_visit, distance):
 
 # helper function that performs the "relaxing" portion of dijkstra's algorithm
 def relax(current_node, neighbor, routers, distance, parent):
-    # compute distance from the starting node to the neighbor
-    # if the computed distance is less than the neighbor’s current value in distance:
-        # set neighbors distance to computed value
-        # set neighbors partent to current node
-    pass
+    connection_info = routers[current_node]["connections"][neighbor]
+
+    computed_distance = distance[current_node] + connection_info["ad"]
+
+    if computed_distance < distance[neighbor]:
+        distance[neighbor] = computed_distance
+        parent[neighbor] = current_node
 
 # helper function to get the shortest path from source to destination
 # ref: https://beej.us/guide/bgnet0/html/split/project-6-routing-with-dijkstras.html
