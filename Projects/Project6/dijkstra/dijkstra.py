@@ -37,6 +37,10 @@ def get_shortest_path(parent, src, dest):
     current_node = dest
     path = []
 
+    # if on the same subnet, then no router is needed (hardcoded slash since in this case all are /24)
+    if ips_same_subnet(src, dest, "/24"):
+        return path
+
     while current_node != src:
         path.append(current_node) 
         current_node = parent[current_node]
@@ -105,7 +109,9 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
     distance = {node: math.inf for node in to_visit}
     parent = {node: None for node in to_visit}
 
-    distance[src_ip] = 0
+    # find the starting node and set its distance to 0
+    src_router = find_router_for_ip(routers, src_ip)
+    distance[src_router] = 0
 
     while to_visit:
         current_node = get_min_distance_node(to_visit, distance)
@@ -119,7 +125,7 @@ def dijkstras_shortest_path(routers, src_ip, dest_ip):
     dest_router = find_router_for_ip(routers, dest_ip)
 
     # find the shortest path from source to destination
-    shortest_path = get_shortest_path(parent, src_ip, dest_router)
+    shortest_path = get_shortest_path(parent, src_router, dest_router)
 
     return shortest_path
 
@@ -201,6 +207,13 @@ def ipv4_to_value(ipv4_addr):
         ipv4_value = (ipv4_value << 8) | int(part)
 
     return ipv4_value
+
+def get_network(ip_value, netmask):
+    """
+    Return the network portion of an address value as integer type.
+    """
+
+    return ip_value & netmask
 
 #------------------------------
 # DO NOT MODIFY BELOW THIS LINE
