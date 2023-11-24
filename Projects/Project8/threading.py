@@ -6,10 +6,10 @@
 
 import threading
 
-def sum_range():
-    # function to add up a range of numbers
-    
-    
+def sum_range(thread_id, start, end, results):
+    # function to add up a range of numbers and store it in results
+    total = sum(range(start, end + 1))
+    results[thread_id] = total
 
 def main():
     # runs all threads
