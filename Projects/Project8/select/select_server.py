@@ -7,7 +7,23 @@ import socket
 import select
 
 def run_server(port):
-    # TODO--fill this in
+    # create a socket for the server
+
+    # bind the socket to the given port
+
+    # list to keep track of connected clients
+
+    # processing loop
+        # select ready to read sockets
+        # for each sockets
+            # if listening socket
+                # accept new connection
+            # else
+                # receive data
+                # if no more data
+                    # close connection
+                # else
+                    # print length and raw data received
     pass
 
 #--------------------------------#
