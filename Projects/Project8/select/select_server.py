@@ -8,10 +8,17 @@ import select
 
 def run_server(port):
     # create a socket for the server
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
     # bind the socket to the given port
+    server_socket.bind(('localhost', port))
+    server_socket.listen(5)
 
     # list to keep track of connected clients
+    clients = [server_socket]
+
+    print("waiting for connections")
 
     # processing loop
         # select ready to read sockets
