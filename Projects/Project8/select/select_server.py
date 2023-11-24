@@ -16,22 +16,32 @@ def run_server(port):
     server_socket.listen(5)
 
     # list to keep track of connected clients
-    clients = [server_socket]
+    read_set = {server_socket}
 
     print("waiting for connections")
 
     # processing loop
+    while True:
         # select ready to read sockets
-        # for each sockets
-            # if listening socket
+        ready_to_read, _, _ = select.select(read_set, {}, {})
+        for s in ready_to_read:
+            if s is server_socket:  # socket is a listening socket
                 # accept new connection
-            # else
-                # receive data
-                # if no more data
+                client_socket, client_address = server_socket.accept()
+                read_set.append(client_socket)
+
+                print(f'{client_address}: connected')
+            else:                   # socket is a regular socket
+                # receive data and process data from an existing client
+                data = s.recv(1024)
+                if not data:        # data = 0 bytes
                     # close connection
-                # else
+                    print(f'{s.getpeername()}: disconnected')
+                    s.close()
+                    read_set.remove(s)
+                else:
                     # print length and raw data received
-    pass
+                    print(f'{s.getpeername()} {len(data)} bytes: {data}')
 
 #--------------------------------#
 # Do not modify below this line! #
