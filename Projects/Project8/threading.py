@@ -8,9 +8,11 @@ import threading
 
 def sum_range():
     # function to add up a range of numbers
-    pass
+    
+    
 
 def main():
+    # runs all threads
     # example input
     ranges = [
         [10, 20],
@@ -20,13 +22,25 @@ def main():
         [0, 16]
     ]
 
-    # launch threads per each range
-        # create new thread that runs sum_range
-        # append to existing threads
-        # start running
+    num_ranges = len(ranges)
+    results = [0] * num_ranges  # empty array to store results
+    threads = []                # empty array to append threads to
 
-    # close threads (join)
+    # launch threads per each range
+    # ref: https://www.geeksforgeeks.org/enumerate-in-python/
+    for i, (start, end) in enumerate(ranges):
+        thread = threading.Thread(target=sum_range, args=(i, start, end, results))
+        threads.append(thread)
+        thread.start()
+
+    # close threads once all done
+    for thread in threads:
+        thread.join()
 
     # print results
+    print(results)
+    total_sum = sum(results)
+    print(total_sum)
 
-    pass
+if __name__ == "__main__":
+    main()
