@@ -1,6 +1,6 @@
 # Example usage:
 #
-# python select_server.py 3490
+# python3 select_server.py 3490
 
 import sys
 import socket
@@ -28,7 +28,7 @@ def run_server(port):
             if s is server_socket:  # socket is a listening socket
                 # accept new connection
                 client_socket, client_address = server_socket.accept()
-                read_set.append(client_socket)
+                read_set.add(client_socket)
 
                 print(f'{client_address}: connected')
             else:                   # socket is a regular socket
