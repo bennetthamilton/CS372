@@ -1,3 +1,8 @@
+# Title: Project 8 - Using Select
+# Name: Bennett Hamilton
+# Date: 11/24/23
+# Description: use select to handle receiving data from multiple clients 
+
 # Example usage:
 #
 # python3 select_server.py 3490
