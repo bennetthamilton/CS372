@@ -6,8 +6,7 @@
 
 import socket
 import threading
-import json
-from chatui import init_windows, read_command, print_message, end_windows
+from chatuicurses import init_windows, read_command, print_message, end_windows
 from chatserver import send_packet, extract_packet
 
 
