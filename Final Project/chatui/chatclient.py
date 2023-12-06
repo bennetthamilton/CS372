@@ -8,7 +8,7 @@ import socket
 import threading
 import json
 from chatui import init_windows, read_command, print_message, end_windows
-from chatserver import send_packet
+from chatserver import send_packet, extract_packet
 
 
 def run_client(nick, server_address, server_port):
@@ -51,6 +51,26 @@ def receive_messages(client_socket):
 
 
 def handle_received_data(data):
+    packet, _ = extract_packet(data.decode('utf-8'))
+    if packet:  # handle pakets based on possible types
+        packet_type = packet.get('type')
+        if packet_type == 'chat':
+            handle_chat_packet(packet)
+        elif packet_type == 'join':
+            handle_join_packet(packet)
+        elif packet_type == 'leave':
+            handle_leave_packet(packet)
+
+
+def handle_chat_packet(packet):
+    pass
+
+
+def handle_join_packet(packet):
+    pass
+
+
+def handle_leave_packet(packet):
     pass
 
 
