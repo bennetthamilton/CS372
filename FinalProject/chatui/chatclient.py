@@ -63,15 +63,19 @@ def handle_received_data(data):
 
 
 def handle_chat_packet(packet):
-    pass
+    sender_nick = packet.get('nick')
+    message = packet.get('message')
+    print_message(f"{sender_nick}: {message}")
 
 
 def handle_join_packet(packet):
-    pass
+    joiner_nick = packet.get('nick')
+    print_message(f"*** {joiner_nick} has joined the chat")
 
 
 def handle_leave_packet(packet):
-    pass
+    leaver_nick = packet.get('nick')
+    print_message(f"*** {leaver_nick} has left the chat")
 
 
 if __name__ == "__main__":
