@@ -93,11 +93,29 @@ def handle_chat_packet(sock, packet, clients):
 
 
 def broadcast_join_message(sock, clients):
-    pass
+    sender_nick = clients[sock]['nick']
+    join_packet = {'type': 'join', 'nick': sender_nick}
+    broadcast(sock, join_packet, clients)
 
 
 def broadcast_chat_message(sender_nick, message, clients):
-    pass
+    chat_packet = {'type': 'chat', 'nick': sender_nick, 'message': message}
+    broadcast(None, chat_packet, clients)
+
+
+def broadcast(sender_sock, packet, clients):
+    # broadcast to everyone except the sender
+    for client_sock in clients:
+        if client_sock != sender_sock:
+            send_packet(client_sock, packet)
+
+
+def send_packet(sock, packet):
+    # create payload
+    payload_data = json.dumps(packet).encode('utf-8')
+    payload_length = len(payload_data).to_bytes(2, 'big')
+    # send to socket
+    sock.send(payload_length + payload_data)
 
 
 def handle_client_disconnect(sock, clients):
@@ -105,7 +123,8 @@ def handle_client_disconnect(sock, clients):
 
 
 def broadcast_leave_message(sender_nick, clients):
-    pass
+    leave_packet = {'type': 'leave', 'nick': sender_nick}
+    broadcast(None, leave_packet, clients)
 
 
 if __name__ == "__main__":
