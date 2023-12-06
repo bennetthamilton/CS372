@@ -28,8 +28,7 @@ def run_server(port):
             if s is server_socket:  # if socket is a listening socket, accept new connection
                 client_socket, client_address = server_socket.accept()
                 read_set.append(client_socket)
-                # add info to client dictionary
-                clients[client_socket] = {'nick': None, 'buffer': ''}
+                clients[client_socket] = {'nick': None, 'buffer': ''}   # add info to client dictionary
                 print("*** New client connected")
 
             else:  # socket is a regular socket, receive data and process data from an existing client
@@ -114,12 +113,14 @@ def send_packet(sock, packet):
     # create payload
     payload_data = json.dumps(packet).encode('utf-8')
     payload_length = len(payload_data).to_bytes(2, 'big')
-    # send to socket
-    sock.send(payload_length + payload_data)
+    sock.send(payload_length + payload_data)    # send to socket
 
 
 def handle_client_disconnect(sock, clients):
-    pass
+    if sock in clients:
+        sender_nick = clients[sock]['nick']            # store nickname
+        del clients[sock]                              # remove client
+        broadcast_leave_message(sender_nick, clients)  # broadcast to other clients
 
 
 def broadcast_leave_message(sender_nick, clients):
