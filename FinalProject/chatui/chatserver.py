@@ -19,7 +19,7 @@ def run_server(port):
     read_set = [server_socket]
     clients = {}
 
-    print("waiting for connections")
+    print("Waiting for connections...")
 
     while True:
         ready_to_read, _, _ = select.select(read_set, {}, {})
@@ -28,7 +28,7 @@ def run_server(port):
             if s is server_socket:  # if socket is a listening socket, accept new connection
                 client_socket, client_address = server_socket.accept()
                 read_set.append(client_socket)
-                clients[client_socket] = {'nick': None, 'buffer': ''}   # add info to client dictionary
+                clients[client_socket] = {'nick': None, 'buffer': b''}   # add info to client dictionary
                 print("*** New client connected")
 
             else:  # socket is a regular socket, receive data and process data from an existing client
@@ -43,7 +43,7 @@ def run_server(port):
 # ref: https://beej.us/guide/bgnet0/html/split/parsing-packets.html
 def handle_client_data(sock, data, clients):
     client_info = clients[sock]
-    client_info['buffer'] += data.decode('utf-8')
+    client_info['buffer'] += data
 
     while True:
         packet, remaining_data = extract_packet(client_info['buffer'])

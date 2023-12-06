@@ -40,18 +40,22 @@ def run_client(nick, server_address, server_port):
             break
     
     client_socket.close()
+    sys.exit(0)
 
 
 def receive_messages(client_socket):
     while True:
-        data = client_socket.recv(1024)  # receive client input
-        if not data:                     # break if no more data
+        try: 
+            data = client_socket.recv(1024)  # receive client input
+            if not data:                     # break if no more data
+                break
+            handle_received_data(data)       # handle client input
+        except OSError:                      # error handling when the socket is closed on thread
             break
-        handle_received_data(data)       # handle client input
 
 
 def handle_received_data(data):
-    packet, _ = extract_packet(data.decode('utf-8'))
+    packet, _ = extract_packet(data)
     if packet:  # handle pakets based on possible types
         packet_type = packet.get('type')
         if packet_type == 'chat':
