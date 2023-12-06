@@ -73,10 +73,38 @@ def extract_packet(buffer):
 
 
 def handle_packet(sock, packet, clients):
+    packet_type = packet.get('type')
+
+    if packet_type == 'hello':
+        handle_hello_packet(sock, packet, clients)
+    elif packet_type == 'chat':
+        handle_chat_packet(sock, packet, clients)
+
+
+def handle_hello_packet(sock, packet, clients):
+    clients[sock]['nick'] = packet.get('nick')
+    broadcast_join_message(sock, clients)
+
+
+def handle_chat_packet(sock, packet, clients):
+    sender_nick = clients[sock]['nick']
+    message = packet.get('message')
+    broadcast_chat_message(sender_nick, message, clients)
+
+
+def broadcast_join_message(sock, clients):
+    pass
+
+
+def broadcast_chat_message(sender_nick, message, clients):
     pass
 
 
 def handle_client_disconnect(sock, clients):
+    pass
+
+
+def broadcast_leave_message(sender_nick, clients):
     pass
 
 
