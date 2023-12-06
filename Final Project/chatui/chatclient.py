@@ -21,6 +21,7 @@ def run_client(nick, server_address, server_port):
     send_packet(client_socket, hello_packet)
 
     # create new client thread
+    # ref: https://beej.us/guide/bgnet0/html/split/appendix-threading.html
     t1 = threading.Thread(target=receive_messages, args=(client_socket,))
     t1.start()
 
@@ -42,6 +43,14 @@ def run_client(nick, server_address, server_port):
 
 
 def receive_messages(client_socket):
+    while True:
+        data = client_socket.recv(1024)  # receive client input
+        if not data:                     # break if no more data
+            break
+        handle_received_data(data)       # handle client input
+
+
+def handle_received_data(data):
     pass
 
 
