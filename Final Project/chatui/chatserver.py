@@ -26,7 +26,7 @@ def run_server(port):
             if s is server_socket:  # if socket is a listening socket, accept new connection
                 client_socket, client_address = server_socket.accept()
                 read_set.append(client_socket)
-                # add to client dictionary
+                # add info to client dictionary
                 clients[client_socket] = {'nick': None, 'buffer': ''}
                 print("*** New client connected")
 
@@ -38,8 +38,27 @@ def run_server(port):
                 else:
                     handle_client_data(s, data, clients)
 
+
 def handle_client_data(sock, data, clients):
+    client_info = clients[sock]
+    client_info['buffer'] += data.decode('utf-8')
+
+    while True:
+        packet, remaining_data = extract_packet(client_info['buffer'])
+        if packet is None:
+            break
+
+        handle_packet(sock, packet, clients)
+        client_info['buffer'] = remaining_data
+
+
+def extract_packet(buffer):
     pass
+
+
+def handle_packet(sock, packet, clients):
+    pass
+
 
 def handle_client_disconnect(sock, clients):
     pass
