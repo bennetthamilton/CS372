@@ -8,25 +8,40 @@ import socket
 import threading
 import json
 from chatui import init_windows, read_command, print_message, end_windows
+from chatserver import send_packet
 
 
 def run_client(nick, server_address, server_port):
     # init client socket
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect((server_address, server_port))
 
     # create hello packet and send
+    hello_packet = {'type': 'hello', 'nick': nick}
+    send_packet(client_socket, hello_packet)
 
     # create new client thread
+    t1 = threading.Thread(target=receive_messages, args=(client_socket,))
+    t1.start()
 
-    # chat loop
-        # try reading input
-        # break if "/q"
-        # create packet
-        # send
-
+    while True:  # chat loop
+        try: 
+            message = read_command(f"{nick}> ")
+            if message.startswith("/q"):    # special user input
+                break  
+            elif message.startswith("/"):   # other commands not supported
+                print_message("Invalid command. Supported command: /q")
+            else:                           # create packet and send
+                chat_packet = {'type': 'chat', 'message': message}
+                send_packet(client_socket, chat_packet)
         # ref: https://docs.python.org/3/library/exceptions.html
-        # except KeyboardInterrupt to also break loop
+        except KeyboardInterrupt: 
+            break
     
-    # close client socket
+    client_socket.close()
+
+
+def receive_messages(client_socket):
     pass
 
 
