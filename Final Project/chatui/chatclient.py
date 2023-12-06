@@ -9,8 +9,26 @@ import threading
 import json
 from chatui import init_windows, read_command, print_message, end_windows
 
+
 def run_client(nick, server_address, server_port):
+    # init client socket
+
+    # create hello packet and send
+
+    # create new client thread
+
+    # chat loop
+        # try reading input
+        # break if "/q"
+        # create packet
+        # send
+
+        # ref: https://docs.python.org/3/library/exceptions.html
+        # except KeyboardInterrupt to also break loop
+    
+    # close client socket
     pass
+
 
 if __name__ == "__main__":
     import sys
