@@ -7,8 +7,10 @@
 import sys
 import socket
 import select
+import json
 
 # ref: CS372/Projects/Project8/select/select_server.py
+# ref: https://beej.us/guide/bgnet0/html/split/select.html
 def run_server(port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind(('localhost', port))
@@ -39,6 +41,7 @@ def run_server(port):
                     handle_client_data(s, data, clients)
 
 
+# ref: https://beej.us/guide/bgnet0/html/split/parsing-packets.html
 def handle_client_data(sock, data, clients):
     client_info = clients[sock]
     client_info['buffer'] += data.decode('utf-8')
@@ -52,8 +55,21 @@ def handle_client_data(sock, data, clients):
         client_info['buffer'] = remaining_data
 
 
+# ref: https://beej.us/guide/bgnet0/html/split/parsing-packets.html
+# ref: https://beej.us/guide/bgnet0/html/split/appendix-json.html
 def extract_packet(buffer):
-    pass
+    if len(buffer) < 2:
+        return None, buffer
+
+    payload_length = int.from_bytes(buffer[:2], 'big')
+
+    if len(buffer) < payload_length + 2:
+        return None, buffer
+
+    payload_data = buffer[2:payload_length + 2].decode('utf-8')
+    remaining_data = buffer[payload_length + 2:]
+
+    return json.loads(payload_data), remaining_data
 
 
 def handle_packet(sock, packet, clients):
