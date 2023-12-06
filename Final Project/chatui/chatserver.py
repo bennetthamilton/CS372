@@ -129,7 +129,6 @@ def broadcast_leave_message(sender_nick, clients):
 
 
 if __name__ == "__main__":
-    import sys
 
     if len(sys.argv) != 2:
         print("Usage: python chat_server.py <port>")
